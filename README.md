@@ -1,2 +1,2 @@
-npm init
-node start
+npm imstall
+npm start
