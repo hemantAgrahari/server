@@ -1,7 +1,7 @@
 import User from "../models/user.models.js";
 import bcrypt from 'bcryptjs';
 import { validationResult } from 'express-validator';
-// import { sendWelcomeEmail } from '../services/email.service.js';
+import sendWelcomeEmail from '../services/email.service.js';
 
 export const register = async (req, res) => {
 
@@ -18,7 +18,7 @@ export const register = async (req, res) => {
         if (!existingUser) {
             userData.password = await bcrypt.hash(userData.password, 10);
             await User.create(userData);
-            // sendWelcomeEmail(userData.email, userData.name);
+            sendWelcomeEmail(userData.email, userData.name);
             res.status(201).send({ status: true, message: 'Successfully registered!' });
         } else {
             res.status(409).send({ status: false, message: "User already exists!" });

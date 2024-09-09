@@ -1,24 +1,27 @@
-import pkg from '@sendgrid/mail';
-const { setApiKey, send } = pkg;
+import postmark from 'postmark';
+;
 
-setApiKey(process.env.SENDGRID_API_KEY);
 
-const sendWelcomeEmail = (userEmail, userName) => {
-    const msg = {
-        to: userEmail,
-        from: 'hemantwanted007@gmail.com', // 
-        subject: 'Welcome to Our Platform!',
-        text: `Hi ${userName}, welcome to our platform!`,
-        html: `<strong>Hi ${userName}, welcome to our platform!</strong>`,
-    };
 
-    send(msg)
-        .then(() => {
-            console.log('Welcome email sent successfully');
-        })
-        .catch((error) => {
-            console.error('Error sending email:', error);
-        });
+const sendWelcomeEmail = async (email, name) => {
+    try {
+
+        const client = new postmark.ServerClient(process.env.POSTMARK_API_TOKEN);
+
+        const emailData = {
+            From: process.env.FROM_EMAIL,
+            To: email,
+            Subject: "Welcome Mail",
+            TextBody: `${name}, Thanks for sign up! Login to view your details.`,
+        };
+
+        const result = await client.sendEmail(emailData);
+        console.log('Email sent successfully:', result);
+        return result;
+    } catch (error) {
+        console.error('Error sending email:', error);
+        throw new Error('Unable to send email');
+    }
 };
 
-export { sendWelcomeEmail };
+export default sendWelcomeEmail;
