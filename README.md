@@ -1,2 +1,2 @@
-npm imstall
-npm start
+npm install
+node start
