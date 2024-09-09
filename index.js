@@ -13,7 +13,8 @@ dotenv.config();
 const app = express();
 
 
-app.use(cors());
+
+app.use(cors({ origin: 'https://server-tau-navy.vercel.app/' }));
 app.use(cookieParser());
 app.use(express.json());
 
