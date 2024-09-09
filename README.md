@@ -1,2 +1,2 @@
-node init
+npm init
 node start
